@@ -8,9 +8,10 @@ import com.tutego.date4u.dto.UnicornDTO;
 import com.tutego.date4u.entity.Photo;
 import com.tutego.date4u.entity.Profile;
 import com.tutego.date4u.entity.Unicorn;
-import com.tutego.date4u.util.FileUploadUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -19,7 +20,6 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.UUID;
 
 @Service
 public class AuthService {
@@ -30,6 +30,8 @@ public class AuthService {
 	private final PhotoDAO photoDAO;
 	private Faker faker = new Faker();
 	private final PhotoService photoService;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	public AuthService( UnicornDAO unicornDAO, ProfileDAO profileDAO, PhotoDAO photoDAO, PhotoService photoService ) {
 		this.unicornDAO = unicornDAO;
@@ -77,7 +79,7 @@ public class AuthService {
 		photoDAO.save( photo );
 
 		unicorn.setEmail( unicornDTO.getEmail() );
-		unicorn.setPassword( "{noop}" + unicornDTO.getPassword() );
+		unicorn.setPassword( passwordEncoder.encode( unicornDTO.getPassword() ) );
 		unicorn.setProfile( profile );
 		unicornDAO.save( unicorn );
 	}

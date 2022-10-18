@@ -4,6 +4,7 @@ import com.tutego.date4u.dao.UnicornDAO;
 import com.tutego.date4u.entity.Unicorn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,7 +25,7 @@ public class UserDetailsServiceConfiguration implements UserDetailsService {
 		if( ! unicorn.isPresent() ) {
 			throw new UsernameNotFoundException( "User not found " + email );
 		}
-		return new org.springframework.security.core.userdetails.User(
+		return new User(
 				unicorn.get().getEmail(),
 				unicorn.get().getPassword(),
 				Collections.emptyList() );
