@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Date4u - Search</title>
+    <link rel="icon" href="/images/favicon.ico" type="image/ico">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.0/dist/lux/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background-color: #F5F5F5 !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <div class="container-fluid">
+            <div class="navbar-nav">
+                <a class="navbar-brand" th:href="@{/}">Date4u</a>
+                <a class="nav-item nav-link" th:href="@{/index}"><i class="fa fa-home"></i> Home</a>
+                <a class="nav-link nav-item" th:href="@{/profile/{id}(id=${userId})}"><i class="fa fa-user"></i> My
+                    profile</a>
+                <a class="nav-link nav-item" th:href="@{/search}"><i class="fa fa-search"></i> Search</a>
+            </div>
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" th:href="@{/logout}"><i class="fa fa-sign-out"></i> Logout</a>
+            </div>
+        </div>
+    </nav>
+    <div class="alert alert-dismissible alert-warning" th:if="${noProfileSet}" style="top: 1rem">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <h4 class="alert-heading">Warning!</h4>
+        <p class="mb-0">Dein Profil ist noch unvollständig. Bitte trage alle notwendigen Informationen in dein
+            Profil
+            ein. Das
+            kannst du unter diesem <a th:href="@{/profile/{id}(id=${userId})}">Link</a> machen.</p>
+    </div>
+
+    <div class="card bg-secondary" style="position: relative; top: 5rem">
+        <div class="card-header">
+            <form data-th-action="@{/search}" method="post">
+                <div class="row mb-2">
+                    <div class="col-4" style="text-align: start; align-self: center">
+                        <h3>Finde dein Paar</h3>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4" style="text-align: start; align-self: center">
+                        Im Alter:
+                    </div>
+                    <div class="col-4" style="text-align: start; align-self: center">
+                        Mit Hornlänge:
+                    </div>
+                    <div class="col-4" style="text-align: start; align-self: center">
+                        Geschlecht:
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4" style="text-align: start; align-self: center">
+                        von <select name="minAge" th:value="${minAge}">
+                        <option th:each="minAgeElement : ${#numbers.sequence(18, 100)}" th:value="${minAgeElement}"
+                                th:text="${minAgeElement}"></option>
+                    </select>
+                        bis <select name="maxAge" th:value="${maxAge}">
+                        <option th:each="maxAgeElement : ${#numbers.sequence(100, 18)}" th:value="${maxAgeElement}"
+                                th:text="${maxAgeElement}"></option>
+                    </select>
+                    </div>
+                    <div class="col-4" style="text-align: start; align-self: center">
+                        von <select name="minHorn" th:value="${minHorn}">
+                        <option th:each="minElement : ${#numbers.sequence(0, 40)}" th:value="${minElement}"
+                                th:text="${minElement}"></option>
+                    </select>
+                        bis <select name="maxHorn" th:value="${maxHorn}">
+                        <option th:each="maxElement : ${#numbers.sequence(40, 0)}" th:value="${maxElement}"
+                                th:text="${maxElement}"></option>
+                    </select>
+                    </div>
+                    <div class="col-4" style="text-align: start; align-self: center">
+                        <select name="gender" th:value="${gender}">
+                            <option th:value="0" th:text="Frau"></option>
+                            <option th:value="1" th:text="Mann"></option>
+                            <option th:value="2" th:text="Divers"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-12" style="text-align: end; align-self: center">
+                        <button type="submit" class="btn btn-primary">Suche starten</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-body">
+            <h4 class="card-title">Suchergebnis</h4>
+            <p class="card-text">Du kannst die Profile der Einhörner besuchen, indem du auf ihre Bilder klickst.</p>
+            <div class="row mt-2 mb-2">
+                <div class="col-12" style="text-align: start; align-self: center">
+                    <table class="table table-striped table-hover">
+                        <tr th:each="element, photo : ${resultList}" data-th-field="*{element}">
+                            <td class="col-1" style="text-align: center">
+                                <a th:href="@{/profile/{id}(id=${element.id})}">
+                                    <img th:src="@{/images/unicorns/{id}.jpg(id=${profilePhotos[__${photo.index}__].name})}"
+                                         style="height: 75px;width: 75px;"
+                                         class="rounded-circle">
+                                    <p th:text="${element.nickname}"></p></a>
+                            </td>
+                            <td class="col-3">
+                                <p th:text="|Geburtsdatum: ${#temporals.format(element.birthdate, 'dd.MM.yyyy')}|"></p>
+                                <p th:text="|Hornlänge: ${element.hornlength}|"></p>
+                            </td>
+                            <td class="col-3">
+                                <p th:if="${element.gender} == 0">Geschlecht: Frau</p>
+                                <p th:if="${element.gender} == 1">Geschlecht: Mann</p>
+                                <p th:if="${element.gender} == 2">Geschlecht: Divers</p>
+                                <p th:if="${element.attractedToGender} == 0">Interessiert an: Frau</p>
+                                <p th:if="${element.attractedToGender} == 1">Interessiert an: Mann</p>
+                                <p th:if="${element.attractedToGender} == 2">Interessiert an: Beiden Geschlechtern</p>
+                                <p th:if="${element.attractedToGender} == null">Interessiert an: Niemandem</p>
+                            </td>
+                            <td class="col-4">
+                                <p th:text="${element.description}"></p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
