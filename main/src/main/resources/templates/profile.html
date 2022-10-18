@@ -225,11 +225,16 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         Beschreibung fehlt
                     </div>
+                    <!--                    <div class="mb-4">-->
+                    <!--                        <label for="descriptionInput" class="form-label">Beschreibung</label>-->
+                    <!--                        <input type="text" data-th-field="*{description}" id="descriptionInput"-->
+                    <!--                               class="form-control">-->
                     <div class="mb-4">
                         <label for="descriptionInput" class="form-label">Beschreibung</label>
-                        <input type="text" data-th-field="*{description}" id="descriptionInput"
-                               class="form-control">
+                        <textarea data-th-field="*{description}" id="descriptionInput" rows="3" maxlength="2048"
+                                  class="form-control"></textarea>
                     </div>
+                    <!--                    </div>-->
                     <div class="mb-4">
                         <label for="lastseenInput" class="form-label">Zuletzt gesehen</label>
                         <input type="text" data-th-field="*{lastseen}" id="lastseenInput"
