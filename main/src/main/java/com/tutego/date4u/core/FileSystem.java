@@ -7,52 +7,36 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.concurrent.Future;
 
 @Component
 public class FileSystem {
+	private final Path root = Paths.get( "src/main/resources/static/images/unicorns/" );
 
-  private final Path root = Paths.get( System.getProperty( "user.home" ) ).resolve( "fs" ).toAbsolutePath().normalize();
+	public FileSystem() {
+		try {
+			if( ! Files.isDirectory( root ) ) Files.createDirectory( root );
+		} catch( IOException e ) {
+			throw new UncheckedIOException( e );
+		}
+	}
 
-  public FileSystem() {
-    if ( !Files.isDirectory( root ) ) {
-      try {
-        Files.createDirectory( root );
-      }
-      catch ( IOException e ) {
-        e.printStackTrace();
-      }
-    }
-  }
+	public long getFreeDiskSpace() {
+		return root.toFile().getFreeSpace();
+	}
 
-  public long getFreeDiskSpace() {
-    return root.toFile().getFreeSpace();
-  }
+	public byte[] load( String filename ) {
+		try {
+			return Files.readAllBytes( root.resolve( filename ) );
+		} catch( IOException e ) {
+			throw new UncheckedIOException( e );
+		}
+	}
 
-  public byte[] load( String filename ) {
-    try {
-      Path path = resolve( filename );
-      return Files.readAllBytes( path );
-    }
-    catch ( IOException e ) {
-      throw new UncheckedIOException( e );
-    }
-  }
-
-  public void store( String filename, byte[] bytes ) {
-    try {
-      Files.write( resolve( filename ), bytes );
-    }
-    catch ( IOException e ) {
-      throw new UncheckedIOException( e );
-    }
-  }
-
-  private Path resolve( String filename ) {
-    Path path = root.resolve( filename ).toAbsolutePath().normalize();
-    if ( !path.startsWith( root ) )
-      throw new SecurityException( "Access to " + path + " denied" );
-    return path;
-  }
-
+	public void store( String filename, byte[] bytes ) {
+		try {
+			Files.write( root.resolve( filename ), bytes );
+		} catch( IOException e ) {
+			throw new UncheckedIOException( e );
+		}
+	}
 }
