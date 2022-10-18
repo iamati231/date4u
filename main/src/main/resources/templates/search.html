@@ -61,31 +61,52 @@
                 </div>
                 <div class="row mb-2">
                     <div class="col-4" style="text-align: start; align-self: center">
-                        von <select name="minAge" th:value="${minAge}">
-                        <option th:each="minAgeElement : ${#numbers.sequence(18, 100)}" th:value="${minAgeElement}"
-                                th:text="${minAgeElement}"></option>
-                    </select>
-                        bis <select name="maxAge" th:value="${maxAge}">
-                        <option th:each="maxAgeElement : ${#numbers.sequence(100, 18)}" th:value="${maxAgeElement}"
-                                th:text="${maxAgeElement}"></option>
-                    </select>
+                        <div class="row">
+                            <div class="col-5">
+                                <label for="minAgeElement" class="form-label">von</label>
+                                <input type="range" class="form-range" value="18" min="18" max="100" step="1"
+                                       id="minAgeElement" name="minAge"
+                                       oninput="this.nextElementSibling.value = this.value">
+                                <output>18</output>
+                            </div>
+                            <div class="col-5">
+                                <label for="maxAgeElement" class="form-label">bis</label>
+                                <input type="range" class="form-range" value="50" min="18" max="100" step="1"
+                                       id="maxAgeElement" name="maxAge"
+                                       oninput="this.nextElementSibling.value = this.value">
+                                <output>50</output>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-4" style="text-align: start; align-self: center">
-                        von <select name="minHorn" th:value="${minHorn}">
-                        <option th:each="minElement : ${#numbers.sequence(0, 40)}" th:value="${minElement}"
-                                th:text="${minElement}"></option>
-                    </select>
-                        bis <select name="maxHorn" th:value="${maxHorn}">
-                        <option th:each="maxElement : ${#numbers.sequence(40, 0)}" th:value="${maxElement}"
-                                th:text="${maxElement}"></option>
-                    </select>
+                        <div class="row">
+                            <div class="col-5">
+                                <label for="minHornElement" class="form-label">von</label>
+                                <input type="range" class="form-range" value="0" min="0" max="40" step="1"
+                                       id="minHornElement" name="minHorn"
+                                       oninput="this.nextElementSibling.value = this.value">
+                                <output>0</output>
+                            </div>
+                            <div class="col-5">
+                                <label for="maxHornElement" class="form-label">bis</label>
+                                <input type="range" class="form-range" value="20" min="0" max="40" step="1"
+                                       id="maxHornElement" name="maxHorn"
+                                       oninput="this.nextElementSibling.value = this.value">
+                                <output>20</output>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-4" style="text-align: start; align-self: center">
-                        <select name="gender" th:value="${gender}">
-                            <option th:value="0" th:text="Frau"></option>
-                            <option th:value="1" th:text="Mann"></option>
-                            <option th:value="2" th:text="Divers"></option>
-                        </select>
+                        <div class="row">
+                            <div class="col-5">
+                                <select class="form-select" name="gender" th:value="${gender}">
+                                    <option th:value="0" th:text="Frau"></option>
+                                    <option th:value="1" th:text="Mann"></option>
+                                    <option th:value="2" th:text="Divers"></option>
+                                </select>
+                            </div>
+                            <div class="col-6"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="row mb-2">

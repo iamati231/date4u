@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 import java.time.LocalDate;
@@ -53,8 +52,8 @@ public class SearchController {
 	}
 
 	@PostMapping( "/search" )
-	public String searching( Model model, Principal principal, int minAge, int maxAge, byte gender, short minHorn,
-	                         short maxHorn ) {
+	public String searching( Model model, Principal principal, int minAge, int maxAge, short minHorn,
+	                         short maxHorn, byte gender ) {
 
 		if( principal != null ) {
 			if( unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile() != null ) {
