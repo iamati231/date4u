@@ -17,7 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ProfileController {
@@ -114,19 +117,6 @@ public class ProfileController {
 			throws IOException {
 		Profile profile = unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile();
 
-//		String filename = UUID.randomUUID().toString();
-//
-//		photo.setProfile( profile );
-//		photo.setName( filename );
-//		photo.setProfilePhoto( photoDAO.findByProfilePhoto( profile ) == null );
-//		photo.setCreated( LocalDateTime.now().truncatedTo( ChronoUnit.SECONDS ) );
-//
-//		photoDAO.save( photo );
-//
-//		String uploadDir = "src/main/resources/static/images/unicorns/";
-//
-//		FileUploadUtil.saveFile( uploadDir, filename + ".jpg", multipartFile );
-		
 		photoService.uploadPhoto( profile.getId(), multipartFile );
 
 		return "redirect:/profile/" + unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile().getId();
