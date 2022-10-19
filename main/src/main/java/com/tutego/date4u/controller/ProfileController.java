@@ -4,7 +4,6 @@ import com.tutego.date4u.dao.PhotoDAO;
 import com.tutego.date4u.dao.ProfileDAO;
 import com.tutego.date4u.dao.UnicornDAO;
 import com.tutego.date4u.dto.ProfileDTO;
-import com.tutego.date4u.entity.Photo;
 import com.tutego.date4u.entity.Profile;
 import com.tutego.date4u.service.PhotoService;
 import com.tutego.date4u.util.AgeCheckUtil;
@@ -113,7 +112,7 @@ public class ProfileController {
 	}
 
 	@PostMapping( "/uploadPhoto" )
-	public String uploadPhoto( Principal principal, Photo photo, @RequestParam( "image" ) MultipartFile multipartFile )
+	public String uploadPhoto( Principal principal, @RequestParam( "image" ) MultipartFile multipartFile )
 			throws IOException {
 		Profile profile = unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile();
 
