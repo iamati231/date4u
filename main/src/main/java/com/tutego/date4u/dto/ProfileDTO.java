@@ -1,6 +1,5 @@
 package com.tutego.date4u.dto;
 
-import com.tutego.date4u.entity.Photo;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -18,7 +17,7 @@ public class ProfileDTO {
 	private Integer attractedToGender;
 	private String description;
 	private LocalDateTime lastseen;
-	private List<Photo> photos;
+	private List<String> photos;
 
 
 	public ProfileDTO() {
@@ -39,7 +38,7 @@ public class ProfileDTO {
 
 	public ProfileDTO( Long id, String nickname, LocalDate birthdate, int hornlength, int gender,
 	                   Integer attractedToGender, String description, LocalDateTime lastseen,
-	                   List<Photo> photos ) {
+	                   List<String> photos ) {
 		this.id = id;
 		this.nickname = nickname;
 		this.birthdate = birthdate;
@@ -115,11 +114,11 @@ public class ProfileDTO {
 		this.lastseen = lastseen;
 	}
 
-	public List<Photo> getPhotos() {
+	public List<String> getPhotos() {
 		return photos;
 	}
 
-	public void setPhotos( List<Photo> photos ) {
+	public void setPhotos( List<String> photos ) {
 		this.photos = photos;
 	}
 
