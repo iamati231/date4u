@@ -68,6 +68,11 @@ public class AuthController {
 				model.addAttribute( "lengthPassword", true );
 				return "register";
 			}
+			if( ! unicornDTO.getPassword().equals( unicornDTO.getConfirmPassword() ) ||
+			    ! unicornDTO.getConfirmPassword().equals( unicornDTO.getPassword() ) ) {
+				model.addAttribute( "passwordNotEqual", true );
+				return "register";
+			}
 			authService.register( unicornDTO );
 		} catch( Exception e ) {
 			return "register";

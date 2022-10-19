@@ -1,9 +1,6 @@
 package com.tutego.date4u.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 
 public class UnicornDTO {
 
@@ -11,9 +8,13 @@ public class UnicornDTO {
 	@JsonProperty( access = JsonProperty.Access.WRITE_ONLY )
 	private String password;
 
-	public UnicornDTO( String email, String password ) {
+	@JsonProperty( access = JsonProperty.Access.WRITE_ONLY )
+	private String confirmPassword;
+
+	public UnicornDTO( String email, String password, String confirmPassword ) {
 		this.email = email;
 		this.password = password;
+		this.confirmPassword = confirmPassword;
 	}
 
 	public String getEmail() {
@@ -32,11 +33,20 @@ public class UnicornDTO {
 		this.password = password;
 	}
 
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword( String confirmPassword ) {
+		this.confirmPassword = confirmPassword;
+	}
+
 	@Override
 	public String toString() {
 		return "UnicornDTO{" +
 		       "email='" + email + '\'' +
 		       ", password='" + password + '\'' +
+		       ", confirmPassword='" + confirmPassword + '\'' +
 		       '}';
 	}
 }
