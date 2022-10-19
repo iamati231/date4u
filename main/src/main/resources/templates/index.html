@@ -6,21 +6,15 @@
     <link rel="icon" href="/images/favicon.ico" type="image/ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.0/dist/lux/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
-    <style>
-        body {
-            background-color: #F5F5F5 !important;
-        }
-
-        .navbar {
-            background-color: #C30A17 !important;
-        }
-    </style>
 </head>
 <body>
 
 <div class="container">
 
+    <!--    navbar für nicht user-->
     <div th:if="${noUser}">
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
             <div class="container-fluid">
@@ -39,6 +33,7 @@
         </nav>
     </div>
 
+    <!--    navbar für user-->
     <div th:if="!${noUser}">
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
             <div class="container-fluid">
@@ -64,34 +59,108 @@
         </div>
     </div>
 
-    <div class="row" style="position: relative; top: 5rem">
+    <!--    karte oben-->
+    <div class="row" style="position: relative; top: 2rem">
         <div class="col">
             <div class="card">
+                <h3 class="card-header"
+                    th:text="'Herzlich Willkommen ' + ((${nickname} == null) ? 'Besucher:in' : ${nickname})">
+                    Herzlich Willkommen... </h3>
                 <div class="card-body">
-                    <h1 class="card-title"
-                        th:text="'Herzlich Willkommen ' + ((${nickname} == null) ? 'Besucher:in' : ${nickname})">
-                        Herzlich Willkommen... </h1> <br>
-                    <h4 th:if="!${noUser}"
-                        th:text="|Schön, dass du wieder da bist. Du warst zuletzt ${lastseen} online.|"
-                        class="card-subtitle mb-2 mt-2 text-muted">Schön... </h4> <br th:if="!${noUser}">
-                    <h4 th:if="${noUser}" class="card-subtitle mb-2 mt-2 text-muted"> Du befindest dich gerade auf der
-                        größten
-                        und beliebtesten
-                        Dating-App für Unicorns. <br> Melde dich schnell an und verpasse nicht die Liebe deines Lebens.
+                    <h4 class="card-title mb-2 mt-2" th:if="!${noUser}"
+                        th:text="|Schön, dass du wieder da bist. Du warst zuletzt ${lastseen} online.|">Schön... </h4>
+                    <h4 class="card-title mb-2 mt-2" th:if="${noUser}"> Du befindest dich gerade auf der größten und
+                        beliebtesten Dating-App für Unicorns. <br> Melde dich schnell an und verpasse nicht die Liebe
+                        deines Lebens.
                     </h4>
-                    <br th:if="${noUser}">
-                    <h5 th:if="${noUser}"> Du bist noch nicht angemeldet? <br> Kein Problem, über den <a
-                            th:href="@{/register}">Link</a> kannst du dich schnell anmelden und sofort mit der Suche
-                        nach
-                        deinem
-                        Partner beginnen. </h5> <br th:if="${noUser}">
-                    <h6 th:text="|*Zurzeit sind ${totalProfiles} Unicorns registriert.|">-1</h6>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-text" th:if="${noUser}"> Du bist noch nicht angemeldet? <br> Kein Problem, über den
+                        <a th:href="@{/register}">Link</a> kannst du dich schnell anmelden und sofort mit der Suche nach
+                        deinem Partner beginnen. </h5> <br th:if="${noUser}">
+                    <p class="card-text text-muted" th:text="|*Zurzeit sind ${totalProfiles} Unicorns registriert.|">
+                        -1</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row" style="position: relative; top: 10rem">
+    <!--    karten mitte-->
+    <div class="row" style="position: relative; top: 4rem">
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <figure class="quote h-100">
+                        <div class="col" style="text-align: start; align-self: center">
+                            <img th:src="@{/images/unicorns/unicorn077.jpg}"
+                                 style="height: 100px;width: 100px;"
+                                 class="rounded-circle">
+                        </div>
+                        <blockquote>
+                            Heute vor einem Jahr habe ich mich am Mondsee zum ersten Mal mit ihm getroffen. 3 Monate
+                            vorher haben wir uns jeden Tag geschrieben und unsere Alltagssorgen geteilt. Ich hatte
+                            von
+                            Anfang an das Gefühl, dass er mich versteht und sofort weiß, was ich meine. Ich habe die
+                            Liebe meines Lebens auf Date4u kennengelernt! Jetzt sind wir seit etwa einem Jahr
+                            zusammen.
+                            Ohne Date4u hätten wir uns vielleicht nie getroffen.
+                        </blockquote>
+                        <figcaption>
+                            &mdash; OlympeMaxime, <cite>Ehemalige Date4u-Benutzerin</cite></figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <figure class="quote h-100">
+                        <div class="col" style="text-align: start; align-self: center">
+                            <img th:src="@{/images/unicorns/unicorn014.jpg}"
+                                 style="height: 100px;width: 100px;"
+                                 class="rounded-circle">
+                        </div>
+                        <blockquote>
+                            Nachdem meine langjährige Beziehung vorbei war, habe ich mich bei Date4u seite
+                            angemeldet.
+                            Nach ein paar Tagen das Match mit einer Frau, die jetzt meine Ehefrau nach 4 Jahren ist.
+                            Wir
+                            haben uns als Paar gefunden, Zufall oder Schicksal. Viel Glück!
+                        </blockquote>
+                        <figcaption>
+                            &mdash; MafaldaHopkirk, <cite>Ehemaliger Date4u-Benutzer</cite></figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <figure class="quote h-100">
+                        <div class="col" style="text-align: start; align-self: center">
+                            <img th:src="@{/images/unicorns/unicorn070.jpg}"
+                                 style="height: 100px;width: 100px;"
+                                 class="rounded-circle">
+                        </div>
+                        <blockquote>
+                            Ich habe meinen jetzigen Partner vor 2 Jahren auf dieser Plattform kennengelernt. Ich
+                            war
+                            vorher bei vielen anderen Dating-Plattformen angemeldet, habe aber immer schlechte
+                            Erfahrungen gemacht. Date4u ist eine sehr gute Dating-Plattform vor allem für einsame
+                            Einhörner. Tipp: Die Qualität der Bilder ist entscheidend und es schadet nie, einen
+                            kleinen
+                            Text im Profil zu schreiben.
+                        </blockquote>
+                        <figcaption>
+                            &mdash; VincentCrabbe, <cite>Ehemaliger Date4u-Benutzer</cite></figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--    karten unten-->
+    <div class="row" style="position: relative; top: 6rem">
         <div class="col">
             <div class="card h-100" style="align-items: center; text-align: center">
                 <img th:src="@{/images/lovecheck.png}" class="card-img-top"
@@ -109,6 +178,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Dating mit Perspektive</h5>
                     <p class="card-text">9 von 10 Date4u-Paaren sind mit ihrer Beziehung zufrieden.</p>
+                    <small class="card-text text-muted">Date4u-Paarbefragung 2021</small>
                 </div>
             </div>
         </div>

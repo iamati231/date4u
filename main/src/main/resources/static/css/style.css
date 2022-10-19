@@ -1,0 +1,20 @@
+body {
+    background-color: #F5F5F5 !important;
+}
+
+.navbar {
+    background-color: #C30A17 !important;
+}
+
+.btn.btn-primary {
+    background-color: #C30A17 !important;
+}
+
+.btn.btn-primary:hover {
+    background-color: #585858 !important;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    text-transform: none;
+    letter-spacing: 3px;
+}
