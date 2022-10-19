@@ -1,11 +1,11 @@
 .quote {
     margin: 0;
     background: #eee;
-    padding: 1em;
-    border-radius: 1em;
+    padding: 1rem;
+    border-radius: 1rem;
 }
 
 .quote figcaption,
 .quote blockquote {
-    margin: 1em;
+    margin: 1rem;
 }
