@@ -3,9 +3,9 @@ package com.tutego.date4u.dao;
 import com.tutego.date4u.dto.ProfileDTO;
 import com.tutego.date4u.entity.Profile;
 import com.tutego.date4u.repository.ProfileRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -65,8 +65,8 @@ public class ProfileDAO {
 		profileRepository.save( updatedProfile );
 	}
 
-	public List<Profile> findProfileByGenderAndHornlength( byte gender, short min, short max ) {
-		return profileRepository.findProfileByGenderAndHornlength( gender, min, max );
+	public List<Profile> search( LocalDate minAge, LocalDate maxAge, short minHorn, short maxHorn, byte gender ) {
+		return profileRepository.search( minAge, maxAge, minHorn, maxHorn, gender );
 	}
 
 	public long count() {

@@ -115,6 +115,8 @@
         <div class="card-body">
             <h4 class="card-title">Suchergebnis</h4>
             <p class="card-text">Du kannst die Profile der Einhörner besuchen, indem du auf ihre Bilder klickst.</p>
+            <p class="card-text text-muted" th:if="${numberOfResults} != null"
+               th:text="|Es wurden ${numberOfResults} Profile gefunden.|">-1</p>
             <div class="row mt-2 mb-2">
                 <div class="col-12" style="text-align: start; align-self: center">
                     <table class="table table-striped table-hover">

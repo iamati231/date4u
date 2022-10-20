@@ -5,6 +5,7 @@ import com.tutego.date4u.dao.ProfileDAO;
 import com.tutego.date4u.dao.UnicornDAO;
 import com.tutego.date4u.entity.Photo;
 import com.tutego.date4u.entity.Profile;
+import com.tutego.date4u.service.SearchService;
 import com.tutego.date4u.util.AgeCheckUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
-import java.time.LocalDate;
-import java.time.Period;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,11 +24,14 @@ public class SearchController {
 	private final ProfileDAO profileDAO;
 	private final UnicornDAO unicornDAO;
 	private final PhotoDAO photoDAO;
+	private final SearchService searchService;
 
-	public SearchController( ProfileDAO profileDAO, UnicornDAO unicornDAO, PhotoDAO photoDAO ) {
+	public SearchController( ProfileDAO profileDAO, UnicornDAO unicornDAO, PhotoDAO photoDAO,
+	                         SearchService searchService ) {
 		this.profileDAO = profileDAO;
 		this.unicornDAO = unicornDAO;
 		this.photoDAO = photoDAO;
+		this.searchService = searchService;
 	}
 
 	@GetMapping( "/search" )
@@ -52,8 +53,8 @@ public class SearchController {
 	}
 
 	@PostMapping( "/search" )
-	public String searching( Model model, Principal principal, int minAge, int maxAge, short minHorn,
-	                         short maxHorn, byte gender ) {
+	public String searching( Model model, Principal principal, int minAge, int maxAge, short minHorn, short maxHorn,
+	                         byte gender ) {
 
 		if( principal != null ) {
 			if( unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile() != null ) {
@@ -67,23 +68,14 @@ public class SearchController {
 			}
 		}
 
-		LocalDate currentDate = LocalDate.now();
-
-		Iterable<Profile> profiles = profileDAO.findProfileByGenderAndHornlength( gender, minHorn, maxHorn );
-		List<Profile> profileListWithMatchingAge = new ArrayList<>();
-
-		for( Profile profile : profiles ) {
-			if( Period.between( profile.getBirthdate(), currentDate ).getYears() >= minAge &&
-			    Period.between( profile.getBirthdate(), currentDate ).getYears() <= maxAge ) {
-				profileListWithMatchingAge.add( profile );
-			}
-		}
+		List<Profile> profileList = searchService.getMatches( minAge, maxAge, minHorn, maxHorn, gender );
 
 		List<Photo> profilePhotos =
-				profileListWithMatchingAge.stream().map( profile -> photoDAO.findByProfilePhoto( profile ) ).toList();
+				profileList.stream().map( profile -> photoDAO.findByProfilePhoto( profile ) ).toList();
 
 		model.addAttribute( "profilePhotos", profilePhotos );
-		model.addAttribute( "resultList", profileListWithMatchingAge );
+		model.addAttribute( "resultList", profileList );
+		model.addAttribute( "numberOfResults", profileList.size() );
 
 		return "search";
 	}
