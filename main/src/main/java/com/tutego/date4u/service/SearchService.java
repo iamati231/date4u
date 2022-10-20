@@ -12,7 +12,9 @@ public class SearchService {
 
 	private final ProfileDAO profileDAO;
 
-	public SearchService( ProfileDAO profileDAO ) { this.profileDAO = profileDAO; }
+	public SearchService( ProfileDAO profileDAO ) {
+		this.profileDAO = profileDAO;
+	}
 
 	public List<Profile> getMatches( int minAge, int maxAge, short minHorn, short maxHorn, byte gender ) {
 		LocalDate currentDate = LocalDate.now();

@@ -19,7 +19,7 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
 	Optional<Profile> findProfileByNickname( String name );
 
 	@Query( """
-			SELECT p FROM   Profile p
+			SELECT p FROM Profile p
 			WHERE  (p.birthdate  BETWEEN :minAge  AND :maxAge)
 			   AND (p.hornlength BETWEEN :minHorn AND :maxHorn)
 			   AND (p.gender = :gender) """ )
