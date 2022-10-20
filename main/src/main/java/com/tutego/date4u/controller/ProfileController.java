@@ -24,7 +24,7 @@ import java.util.Optional;
 @Controller
 public class ProfileController {
 
-	Logger log = LoggerFactory.getLogger( ProfileController.class );
+	private final Logger log = LoggerFactory.getLogger( ProfileController.class );
 	private final ProfileDAO profileDAO;
 	private final UnicornDAO unicornDAO;
 	private final PhotoDAO photoDAO;

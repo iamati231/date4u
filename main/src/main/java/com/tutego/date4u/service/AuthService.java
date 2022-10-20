@@ -24,7 +24,7 @@ import java.time.temporal.ChronoUnit;
 @Service
 public class AuthService {
 
-	private static final Logger log = LoggerFactory.getLogger( AuthService.class );
+	private final Logger log = LoggerFactory.getLogger( AuthService.class );
 	private final UnicornDAO unicornDAO;
 	private final ProfileDAO profileDAO;
 	private final PhotoDAO photoDAO;

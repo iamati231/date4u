@@ -16,7 +16,7 @@ import java.security.Principal;
 @Controller
 public class AuthController {
 
-	Logger log = LoggerFactory.getLogger( AuthController.class );
+	private final Logger log = LoggerFactory.getLogger( AuthController.class );
 	private final AuthService authService;
 	private final UnicornDAO unicornDAO;
 

@@ -13,7 +13,7 @@ import java.nio.file.StandardCopyOption;
 
 public class FileUploadUtil {
 
-	static Logger log = LoggerFactory.getLogger( FileUploadUtil.class );
+	private static final Logger log = LoggerFactory.getLogger( FileUploadUtil.class );
 
 	public static void saveFile( String uploadDir, String fileName, MultipartFile multipartFile ) throws IOException {
 		Path uploadPath = Paths.get( uploadDir );

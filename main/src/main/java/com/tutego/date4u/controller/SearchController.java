@@ -20,7 +20,7 @@ import java.util.List;
 @Controller
 public class SearchController {
 
-	Logger log = LoggerFactory.getLogger( SearchController.class );
+	private final Logger log = LoggerFactory.getLogger( SearchController.class );
 	private final ProfileDAO profileDAO;
 	private final UnicornDAO unicornDAO;
 	private final PhotoDAO photoDAO;
