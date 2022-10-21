@@ -23,7 +23,7 @@ public class SearchService {
 	public List<Profile> getMatches( int minAge, int maxAge, short minHorn, short maxHorn, byte gender ) {
 		LocalDate currentDate = LocalDate.now();
 
-		return profileDAO.search( currentDate.minusYears( maxAge ), currentDate.minusYears( minAge ),
+		return profileDAO.search( currentDate.minusYears( maxAge ).minusYears( 1 ), currentDate.minusYears( minAge ),
 				minHorn, maxHorn, gender );
 	}
 
