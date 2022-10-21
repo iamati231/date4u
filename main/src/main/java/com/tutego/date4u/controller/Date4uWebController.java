@@ -2,7 +2,9 @@ package com.tutego.date4u.controller;
 
 import com.tutego.date4u.dao.ProfileDAO;
 import com.tutego.date4u.dao.UnicornDAO;
+import com.tutego.date4u.service.AuthService;
 import com.tutego.date4u.util.AgeCheckUtil;
+import com.tutego.date4u.util.LastSeenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -20,10 +22,12 @@ public class Date4uWebController {
 	private final Logger log = LoggerFactory.getLogger( getClass() );
 	private final ProfileDAO profileDAO;
 	private final UnicornDAO unicornDAO;
+	private final AuthService authService;
 
-	public Date4uWebController( ProfileDAO profileDAO, UnicornDAO unicornDAO ) {
+	public Date4uWebController( ProfileDAO profileDAO, UnicornDAO unicornDAO, AuthService authService ) {
 		this.profileDAO = profileDAO;
 		this.unicornDAO = unicornDAO;
+		this.authService = authService;
 	}
 
 	@GetMapping( value = "/*" )
@@ -50,6 +54,7 @@ public class Date4uWebController {
 					    unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile().getBirthdate() ) ) {
 				model.addAttribute( "noProfileSet", true );
 			}
+			LastSeenUtil.lastseen( principal.getName(), profileDAO, unicornDAO );
 		} else {
 			model.addAttribute( "noUser", true );
 		}

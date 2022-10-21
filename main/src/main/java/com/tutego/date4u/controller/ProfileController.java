@@ -7,6 +7,7 @@ import com.tutego.date4u.dto.ProfileDTO;
 import com.tutego.date4u.entity.Profile;
 import com.tutego.date4u.service.PhotoService;
 import com.tutego.date4u.util.AgeCheckUtil;
+import com.tutego.date4u.util.LastSeenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -61,6 +62,7 @@ public class ProfileController {
 				model.addAttribute( "descriptionIsEmpty", true );
 			}
 		}
+		LastSeenUtil.lastseen( principal.getName(), profileDAO, unicornDAO );
 
 		Profile profile = maybeProfile.get();
 		model.addAttribute( "profile",
