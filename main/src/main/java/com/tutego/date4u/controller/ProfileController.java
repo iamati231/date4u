@@ -5,6 +5,7 @@ import com.tutego.date4u.dao.ProfileDAO;
 import com.tutego.date4u.dao.UnicornDAO;
 import com.tutego.date4u.dto.ProfileDTO;
 import com.tutego.date4u.entity.Profile;
+import com.tutego.date4u.service.LikesService;
 import com.tutego.date4u.service.PhotoService;
 import com.tutego.date4u.util.AgeCheckUtil;
 import com.tutego.date4u.util.LastSeenUtil;
@@ -18,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,13 +30,15 @@ public class ProfileController {
 	private final UnicornDAO unicornDAO;
 	private final PhotoDAO photoDAO;
 	private final PhotoService photoService;
+	private final LikesService likesService;
 
 	public ProfileController( ProfileDAO profileDAO, UnicornDAO unicornDAO, PhotoDAO photoDAO,
-	                          PhotoService photoService ) {
+	                          PhotoService photoService, LikesService likesService ) {
 		this.profileDAO = profileDAO;
 		this.unicornDAO = unicornDAO;
 		this.photoDAO = photoDAO;
 		this.photoService = photoService;
+		this.likesService = likesService;
 	}
 
 	@GetMapping( value = "/profile/{id}" )
@@ -95,7 +97,9 @@ public class ProfileController {
 		model.addAttribute( "likees", likees );
 		model.addAttribute( "likers", likers );
 
-		log.info( Arrays.toString( allPhotos.toArray() ) );
+		if( likers.contains( unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile() ) ) {
+			model.addAttribute( "isLiked", true );
+		}
 
 		return "profile";
 	}
@@ -110,7 +114,7 @@ public class ProfileController {
 		return "redirect:/profile/" + profile.getId();
 	}
 
-	@PostMapping( "/changePp" )
+	@PostMapping( value = "/changePp" )
 	public String changePp( Principal principal, @ModelAttribute( "photoName" ) String photoName ) {
 		Profile profile = unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile();
 
@@ -119,7 +123,7 @@ public class ProfileController {
 		return "redirect:/profile/" + unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile().getId();
 	}
 
-	@PostMapping( "/uploadPhoto" )
+	@PostMapping( value = "/uploadPhoto" )
 	public String uploadPhoto( Principal principal, @RequestParam( "image" ) MultipartFile multipartFile )
 			throws IOException {
 		Profile profile = unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile();
@@ -129,11 +133,23 @@ public class ProfileController {
 		return "redirect:/profile/" + unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile().getId();
 	}
 
-
 	@PostMapping( value = "/likeProfile" )
-	public String likeProfile( Model model, Principal principal, Long profileId ) {
+	public String likeProfile( Principal principal, Long profileId ) {
+		Profile profile = unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile();
 
-		return "redirect:/profile/" + unicornDAO.findUnicornByEmail( principal.getName() ).get().getId();
+		likesService.likeProfile( profile, profileId );
+
+
+		return "redirect:/profile/" + profileId;
+	}
+
+	@PostMapping( value = "/unlikeProfile" )
+	public String unlikeProfile( Principal principal, Long profileId ) {
+		Profile profile = unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile();
+
+		likesService.unlikeProfile( profile, profileId );
+
+		return "redirect:/profile/" + profileId;
 	}
 
 }

@@ -30,6 +30,7 @@
             </div>
         </div>
     </nav>
+
     <div class="alert alert-dismissible alert-warning" th:if="${notOlderThan18}" style="top: 1rem">
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         <h4 class="alert-heading">Warning!</h4>
@@ -171,8 +172,26 @@
                     <i class="fa fa-envelope-o" style="font-size:30px">&nbsp;<a th:text="${email}"></a></i>
                 </div>
                 <div class="col-2" style="text-align: start; align-self: center">
-                    <div class="mb-2">
-                        <button th:if="${isProfile}" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    <div th:if="!${isProfile}">
+                        <div th:if="!${isLiked}">
+                            <form th:action="@{/likeProfile}" method="post">
+                                <input type="text" name="profileId" th:value="${profile.id}" hidden>
+                                <button type="submit" class="btn btn-primary"
+                                        style="text-align: center; align-self: center;">&nbsp; Like &nbsp;
+                                </button>
+                            </form>
+                        </div>
+                        <div th:if="${isLiked}">
+                            <form th:action="@{/unlikeProfile}" method="post">
+                                <input type="text" name="profileId" th:value="${profile.id}" hidden>
+                                <button type="submit" class="btn btn-primary"
+                                        style="text-align: center; align-self: center;">&nbsp; Unlike &nbsp;
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div th:if="${isProfile}">
+                        <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal"
                                 data-bs-target="#likeesModal"
                                 style="text-align: center; align-self: center;">
                             Deine Likes
@@ -201,9 +220,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <button th:if="${isProfile}" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#likersModal"
                                 style="text-align: center; align-self: center;">
                             Deine Liker
@@ -299,10 +316,6 @@
                 </form>
             </div>
             <div th:if="!${isProfile}">
-                <form th:action="@{/likeProfile}" method="post">
-                    <input type="text" name="profileId" th:value="${profile.id}" hidden>
-                    <input class="btn btn-success" type="submit" value="Ich mag dieses Einhorn"/>
-                </form>
                 <h3 class="card-title" th:text="|Profil von ${profile.nickname}|">Profil von...</h3>
                 <form data-th-object="${profile}">
                     <div class="mb-4">
