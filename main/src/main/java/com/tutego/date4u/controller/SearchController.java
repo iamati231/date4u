@@ -88,10 +88,6 @@ public class SearchController {
 		model.addAttribute( "lastseenHours", hours );
 		model.addAttribute( "lastseenMinutes", minutes );
 
-		log.info( days.toString() );
-		log.info( hours.toString() );
-		log.info( minutes.toString() );
-
 		return "search";
 	}
 

@@ -153,6 +153,14 @@ public class Profile {
 		return profilesThatLikeMe;
 	}
 
+	public void setProfilesThatILike( Set<Profile> profilesThatILike ) {
+		this.profilesThatILike = profilesThatILike;
+	}
+
+	public void setProfilesThatLikeMe( Set<Profile> profilesThatLikeMe ) {
+		this.profilesThatLikeMe = profilesThatLikeMe;
+	}
+
 	@Override
 	public boolean equals( Object o ) {
 		return o instanceof Profile profile && Objects.equals( nickname, profile.nickname );

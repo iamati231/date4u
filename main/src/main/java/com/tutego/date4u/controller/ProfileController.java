@@ -89,6 +89,12 @@ public class ProfileController {
 			model.addAttribute( "noPhoto", true );
 		}
 
+		List<Profile> likees = profile.getProfilesThatILike().stream().toList();
+		List<Profile> likers = profile.getProfilesThatLikeMe().stream().toList();
+
+		model.addAttribute( "likees", likees );
+		model.addAttribute( "likers", likers );
+
 		log.info( Arrays.toString( allPhotos.toArray() ) );
 
 		return "profile";
@@ -121,6 +127,13 @@ public class ProfileController {
 		photoService.uploadPhoto( profile.getId(), multipartFile );
 
 		return "redirect:/profile/" + unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile().getId();
+	}
+
+
+	@PostMapping( value = "/likeProfile" )
+	public String likeProfile( Model model, Principal principal, Long profileId ) {
+
+		return "redirect:/profile/" + unicornDAO.findUnicornByEmail( principal.getName() ).get().getId();
 	}
 
 }
