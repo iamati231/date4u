@@ -2,6 +2,7 @@ package com.tutego.date4u.dao;
 
 import com.tutego.date4u.dto.ProfileDTO;
 import com.tutego.date4u.entity.Profile;
+import com.tutego.date4u.entity.Unicorn;
 import com.tutego.date4u.repository.ProfileRepository;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,10 @@ public class ProfileDAO {
 
 	public Optional<Profile> findByNickname( String nickname ) {
 		return profileRepository.findByNickname( nickname );
+	}
+
+	public Profile findByUnicorn( Unicorn unicorn ) {
+		return profileRepository.findByUnicorn( unicorn );
 	}
 
 	public Optional<Profile> findProfileByNickname( String nickname ) {

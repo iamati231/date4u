@@ -1,6 +1,7 @@
 package com.tutego.date4u.repository;
 
 import com.tutego.date4u.entity.Profile;
+import com.tutego.date4u.entity.Unicorn;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,6 +18,8 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
 
 	@Query( "SELECT p FROM Profile p WHERE p.nickname =:name" )
 	Optional<Profile> findProfileByNickname( String name );
+
+	Profile findByUnicorn( Unicorn unicorn );
 
 	@Query( """
 			SELECT p FROM Profile p
