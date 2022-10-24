@@ -146,7 +146,7 @@
                                    th:text="|Zuletzt online vor: ${lastseenDays[__${photo.index}__]} Tagen|"></p>
 
                                 <p th:if="${lastseenDays[__${photo.index}__]} <= 1
-                                AND ${lastseenHours[__${photo.index}__]} > 3 "
+                                and ${lastseenHours[__${photo.index}__]} > 3 "
                                    th:text="|Zuletzt online vor: ${lastseenHours[__${photo.index}__]} Stunden|"></p>
 
                                 <p th:if="${lastseenHours[__${photo.index}__]} < 3"
