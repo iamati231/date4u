@@ -45,8 +45,8 @@ public class ProfileController {
 	public String profile( Model model, Principal principal, @PathVariable long id ) {
 		Optional<Profile> maybeProfile = profileDAO.findById( id );
 
-		if( ! maybeProfile.isPresent() ) {
-			return "redirect:/index";
+		if( maybeProfile == null ) {
+			return "notFound";
 		}
 
 		if( unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile() != null ) {
@@ -107,6 +107,15 @@ public class ProfileController {
 		}
 
 		return "profile";
+	}
+
+	@GetMapping( value = "/profile/" )
+	public String profile( Model model, Principal principal ) {
+		if( unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile() != null ) {
+			model.addAttribute( "userId",
+					unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile().getId() );
+		}
+		return "redirect:/profile/" + unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile().getId();
 	}
 
 	@PostMapping( value = "/save" )
