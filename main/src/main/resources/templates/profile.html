@@ -31,13 +31,13 @@
         </div>
     </nav>
 
-    <div class="alert alert-dismissible alert-warning" th:if="${notOlderThan18}" style="top: 1rem">
+    <div class="alert alert-dismissible alert-warning" th:if="${isProfile} and ${notOlderThan18}" style="top: 1rem">
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         <h4 class="alert-heading">Warning!</h4>
         <p class="mb-0">Um in der Suche zu erscheinen, musst du mindestens 18 Jahre alt sein. Bitte bestätige, dass du
             älter als 18 Jahre alt bist.</p>
     </div>
-    <div class="alert alert-dismissible alert-warning" th:if="${descriptionIsEmpty}" style="top: 1rem">
+    <div class="alert alert-dismissible alert-warning" th:if="${isProfile} and ${descriptionIsEmpty}" style="top: 1rem">
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         <h4 class="alert-heading">Warning!</h4>
         <p class="mb-0"> Beschreibung fehlt. Für einen besseren Eindruck bei der Suche solltest du eine Beschreibung
@@ -171,8 +171,8 @@
                     <h2 th:text=" ${profile.nickname}"></h2>
                     <i class="fa fa-envelope-o" style="font-size:30px">&nbsp;<a th:text="${email}"></a></i>
                 </div>
-                <div class="col-2" style="text-align: start; align-self: center">
-                    <div th:if="!${isProfile}">
+                <div th:if="!${notOlderThan18}" class="col-2" style="text-align: start; align-self: center">
+                    <div th:if="!${isProfile} and !${profileNotOlderThan18}">
                         <div th:if="!${isLiked}">
                             <form th:action="@{/likeProfile}" method="post">
                                 <input type="text" name="profileId" th:value="${profile.id}" hidden>
@@ -192,9 +192,8 @@
                     </div>
                     <div th:if="${isProfile}">
                         <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal"
-                                data-bs-target="#likeesModal"
-                                style="text-align: center; align-self: center;">
-                            Deine Likes
+                                data-bs-target="#likeesModal" style="text-align: center; align-self: center;"> Deine
+                            Likes
                         </button>
                         <div class="modal" id="likeesModal">
                             <div class="modal-dialog">
@@ -209,7 +208,8 @@
                                     <div class="modal-body">
                                         <div th:each="likee : ${likees}">
                                             <a th:href="@{/profile/{id}(id=${likee.id})}">
-                                                <p th:text="${likee.nickname}"></p></a>
+                                                <p th:text="${likee.nickname}"></p>
+                                            </a>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -238,7 +238,8 @@
                                     <div class="modal-body">
                                         <div th:each="liker : ${likers}">
                                             <a th:href="@{/profile/{id}(id=${liker.id})}">
-                                                <p th:text="${liker.nickname}"></p></a>
+                                                <p th:text="${liker.nickname}"></p>
+                                            </a>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">

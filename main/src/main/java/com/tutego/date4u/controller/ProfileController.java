@@ -55,15 +55,17 @@ public class ProfileController {
 		}
 		if( id == unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile().getId() ) {
 			model.addAttribute( "isProfile", true );
-			if( AgeCheckUtil.isOlderThan18(
-					unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile().getBirthdate() ) ) {
-				model.addAttribute( "notOlderThan18", true );
-			}
-			if( unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile().getDescription()
-					.equals( "" ) ) {
-				model.addAttribute( "descriptionIsEmpty", true );
-			}
 		}
+		if( AgeCheckUtil.isOlderThan18(
+				unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile().getBirthdate() ) ) {
+			model.addAttribute( "notOlderThan18", true );
+			log.info( String.valueOf(
+					unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile().getBirthdate() ) );
+		}
+		if( unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile().getDescription().equals( "" ) ) {
+			model.addAttribute( "descriptionIsEmpty", true );
+		}
+
 		LastSeenUtil.lastseen( principal.getName(), profileDAO, unicornDAO );
 
 		Profile profile = maybeProfile.get();
@@ -99,6 +101,9 @@ public class ProfileController {
 
 		if( likers.contains( unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile() ) ) {
 			model.addAttribute( "isLiked", true );
+		}
+		if( AgeCheckUtil.isOlderThan18( profileDAO.findById( id ).get().getBirthdate() ) ) {
+			model.addAttribute( "profileNotOlderThan18", true );
 		}
 
 		return "profile";
