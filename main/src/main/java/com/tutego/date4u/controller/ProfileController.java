@@ -109,7 +109,7 @@ public class ProfileController {
 		return "profile";
 	}
 
-	@GetMapping( value = "/profile/" )
+	@GetMapping( value = { "/profile/", "/profile" } )
 	public String profile( Model model, Principal principal ) {
 		if( unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile() != null ) {
 			model.addAttribute( "userId",

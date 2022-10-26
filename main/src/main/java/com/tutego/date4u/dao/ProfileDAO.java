@@ -1,6 +1,7 @@
 package com.tutego.date4u.dao;
 
 import com.tutego.date4u.dto.ProfileDTO;
+import com.tutego.date4u.dto.SearchDTO;
 import com.tutego.date4u.entity.Profile;
 import com.tutego.date4u.entity.Unicorn;
 import com.tutego.date4u.repository.ProfileRepository;
@@ -70,8 +71,12 @@ public class ProfileDAO {
 		profileRepository.save( updatedProfile );
 	}
 
-	public List<Profile> search( LocalDate minAge, LocalDate maxAge, short minHorn, short maxHorn, byte gender ) {
-		return profileRepository.search( minAge, maxAge, minHorn, maxHorn, gender );
+	public List<Profile> search( SearchDTO searchDTO ) {
+		LocalDate currentDate = LocalDate.now();
+
+		return profileRepository.search( currentDate.minusYears( searchDTO.getMaxAge() ).minusYears( 1 ),
+				currentDate.minusYears( searchDTO.getMinAge() ), searchDTO.getMinHorn(), searchDTO.getMaxHorn(),
+				searchDTO.getGender() );
 	}
 
 	public long count() {

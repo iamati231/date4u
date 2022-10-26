@@ -3,9 +3,9 @@ package com.tutego.date4u.controller;
 import com.tutego.date4u.dao.PhotoDAO;
 import com.tutego.date4u.dao.ProfileDAO;
 import com.tutego.date4u.dao.UnicornDAO;
+import com.tutego.date4u.dto.SearchDTO;
 import com.tutego.date4u.entity.Photo;
 import com.tutego.date4u.entity.Profile;
-import com.tutego.date4u.service.SearchService;
 import com.tutego.date4u.util.AgeCheckUtil;
 import com.tutego.date4u.util.LastSeenUtil;
 import org.slf4j.Logger;
@@ -27,14 +27,11 @@ public class SearchController {
 	private final ProfileDAO profileDAO;
 	private final UnicornDAO unicornDAO;
 	private final PhotoDAO photoDAO;
-	private final SearchService searchService;
 
-	public SearchController( ProfileDAO profileDAO, UnicornDAO unicornDAO, PhotoDAO photoDAO,
-	                         SearchService searchService ) {
+	public SearchController( ProfileDAO profileDAO, UnicornDAO unicornDAO, PhotoDAO photoDAO ) {
 		this.profileDAO = profileDAO;
 		this.unicornDAO = unicornDAO;
 		this.photoDAO = photoDAO;
-		this.searchService = searchService;
 	}
 
 	@GetMapping( "/search" )
@@ -55,8 +52,7 @@ public class SearchController {
 	}
 
 	@PostMapping( "/search" )
-	public String searching( Model model, Principal principal, int minAge, int maxAge, short minHorn, short maxHorn,
-	                         byte gender ) {
+	public String searching( Model model, Principal principal, SearchDTO searchDTO ) {
 
 		if( unicornDAO.findUnicornByEmail( principal.getName() ).get().getProfile() != null ) {
 			model.addAttribute( "userId",
@@ -68,7 +64,7 @@ public class SearchController {
 			model.addAttribute( "noProfileSet", true );
 		}
 
-		List<Profile> profiles = searchService.getMatches( minAge, maxAge, minHorn, maxHorn, gender );
+		List<Profile> profiles = profileDAO.search( searchDTO );
 
 		List<Photo> profilePhotos = profiles.stream().map( profile -> photoDAO.findByProfilePhoto( profile ) ).toList();
 
