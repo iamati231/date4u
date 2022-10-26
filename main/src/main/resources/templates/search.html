@@ -43,7 +43,7 @@
 
     <div class="card bg-secondary" style="position: relative; top: 2rem">
         <div class="card-header">
-            <form data-th-action="@{/search}" method="post">
+            <form data-th-action="@{/search}" th:object="${searchDTO}" method="post" id="formSearch">
                 <div class="row mb-2">
                     <div class="col-4" style="text-align: start; align-self: center">
                         <h3>Finde dein Paar</h3>
@@ -66,14 +66,14 @@
                             <div class="col-5">
                                 <label for="minAgeElement" class="form-label">von</label>
                                 <input type="range" class="form-range" value="18" min="18" max="100" step="1"
-                                       id="minAgeElement" name="minAge"
+                                       id="minAgeElement" data-th-field="*{minAge}"
                                        oninput="this.nextElementSibling.value = this.value">
                                 <output>18</output>
                             </div>
                             <div class="col-5">
                                 <label for="maxAgeElement" class="form-label">bis</label>
                                 <input type="range" class="form-range" value="50" min="18" max="100" step="1"
-                                       id="maxAgeElement" name="maxAge"
+                                       id="maxAgeElement" data-th-field="*{maxAge}"
                                        oninput="this.nextElementSibling.value = this.value">
                                 <output>50</output>
                             </div>
@@ -84,14 +84,14 @@
                             <div class="col-5">
                                 <label for="minHornElement" class="form-label">von</label>
                                 <input type="range" class="form-range" value="0" min="0" max="40" step="1"
-                                       id="minHornElement" name="minHorn"
+                                       id="minHornElement" data-th-field="*{minHorn}"
                                        oninput="this.nextElementSibling.value = this.value">
                                 <output>0</output>
                             </div>
                             <div class="col-5">
                                 <label for="maxHornElement" class="form-label">bis</label>
                                 <input type="range" class="form-range" value="20" min="0" max="40" step="1"
-                                       id="maxHornElement" name="maxHorn"
+                                       id="maxHornElement" data-th-field="*{maxHorn}"
                                        oninput="this.nextElementSibling.value = this.value">
                                 <output>20</output>
                             </div>
@@ -100,7 +100,7 @@
                     <div class="col-4" style="text-align: start; align-self: center">
                         <div class="row">
                             <div class="col-5">
-                                <select class="form-select" name="gender" th:value="${gender}">
+                                <select class="form-select" data-th-field="*{gender}">
                                     <option th:value="0" th:text="Frau"></option>
                                     <option th:value="1" th:text="Mann"></option>
                                     <option th:value="2" th:text="Divers"></option>
@@ -121,7 +121,7 @@
             <h4 class="card-title">Suchergebnis</h4>
             <p class="card-text">Du kannst die Profile der Einhörner besuchen, indem du auf ihre Bilder klickst.</p>
             <p class="card-text text-muted" th:if="${numberOfResults} != null"
-               th:text="|Es wurden ${numberOfResults} Profile gefunden.|">-1</p>
+               th:text="|Es wurden ${totalItems} Profile gefunden.|">-1</p>
             <div class="row mt-2 mb-2">
                 <div class="col-12" style="text-align: start; align-self: center">
                     <table class="table table-striped table-hover">
@@ -167,6 +167,26 @@
                             </td>
                         </tr>
                     </table>
+                    <div th:if="${totalPages > 1}">
+                        <div class="row" style="justify-content: center;">
+                            <div class="col-1">
+                            <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                                <a th:if="${currentPage != i}" th:href="@{'/search/' + ${i}}">[[${i}]]</a>
+                                <span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+                            </span>
+                            </div>
+                            <div class="col-1">
+                                <a th:if="${currentPage < totalPages}"
+                                   th:href="@{'/search/' + ${currentPage + 1}}">Nächste</a>
+                                <span th:unless="${currentPage < totalPages}">Nächste</span>
+                            </div>
+                            <div class="col-1">
+                                <a th:if="${currentPage < totalPages}"
+                                   th:href="@{'/search/' + ${totalPages}}">Letzte</a>
+                                <span th:unless="${currentPage < totalPages}">Letzte</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

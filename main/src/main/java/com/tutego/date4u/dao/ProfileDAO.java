@@ -5,6 +5,8 @@ import com.tutego.date4u.dto.SearchDTO;
 import com.tutego.date4u.entity.Profile;
 import com.tutego.date4u.entity.Unicorn;
 import com.tutego.date4u.repository.ProfileRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -71,12 +73,12 @@ public class ProfileDAO {
 		profileRepository.save( updatedProfile );
 	}
 
-	public List<Profile> search( SearchDTO searchDTO ) {
+	public Page<Profile> search( SearchDTO searchDTO, Pageable pageable ) {
 		LocalDate currentDate = LocalDate.now();
 
 		return profileRepository.search( currentDate.minusYears( searchDTO.getMaxAge() ).minusYears( 1 ),
 				currentDate.minusYears( searchDTO.getMinAge() ), searchDTO.getMinHorn(), searchDTO.getMaxHorn(),
-				searchDTO.getGender() );
+				searchDTO.getGender(), pageable );
 	}
 
 	public long count() {

@@ -16,6 +16,14 @@ public class SearchDTO {
 		this.gender = gender;
 	}
 
+	public SearchDTO() {
+		setMinAge( 18 );
+		setMaxAge( 50 );
+		setMinHorn( ( short ) 0 );
+		setMaxHorn( ( short ) 20 );
+		setGender( ( byte ) 0 );
+	}
+
 	public int getMinAge() {
 		return minAge;
 	}
