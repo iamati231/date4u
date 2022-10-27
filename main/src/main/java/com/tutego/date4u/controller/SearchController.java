@@ -42,7 +42,7 @@ public class SearchController {
 		this.photoDAO = photoDAO;
 	}
 
-	@GetMapping( { "/search", "/search/{pageNo}" } )
+	@GetMapping( value = { "/search", "/search/{pageNo}" } )
 	public String search( Model model, Principal principal, @PathVariable( "pageNo" ) Optional<Integer> pageNo,
 	                      HttpSession session ) {
 

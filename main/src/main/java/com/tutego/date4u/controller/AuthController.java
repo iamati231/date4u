@@ -25,7 +25,7 @@ public class AuthController {
 		this.unicornDAO = unicornDAO;
 	}
 
-	@GetMapping( "/login" )
+	@GetMapping( value = "/login" )
 	public String login( Model model, Principal principal ) {
 		if( principal != null ) {
 			model.addAttribute( "noUser", true );
@@ -41,7 +41,7 @@ public class AuthController {
 		return "register";
 	}
 
-	@PostMapping( "/register" )
+	@PostMapping( value = "/register" )
 	public String register( Model model, UnicornDTO unicornDTO ) {
 		try {
 			if( unicornDAO.existsByEmail( unicornDTO.getEmail() ) ) {
