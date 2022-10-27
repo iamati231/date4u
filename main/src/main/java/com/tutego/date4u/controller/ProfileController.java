@@ -103,7 +103,7 @@ public class ProfileController {
 			model.addAttribute( "isLiked", true );
 		}
 		if( AgeCheckUtil.isOlderThan18( profileDAO.findById( id ).get().getBirthdate() ) ) {
-			model.addAttribute( "profileNotOlderThan18", true );
+			model.addAttribute( "profileOlderThan18", true );
 		}
 
 		return "profile";

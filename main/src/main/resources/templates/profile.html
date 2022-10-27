@@ -172,7 +172,7 @@
                     <i class="fa fa-envelope-o" style="font-size:30px">&nbsp;<a th:text="${email}"></a></i>
                 </div>
                 <div th:if="!${notOlderThan18}" class="col-2" style="text-align: start; align-self: center">
-                    <div th:if="!${isProfile} and !${profileNotOlderThan18}">
+                    <div th:if="!${isProfile} and !${profileOlderThan18}">
                         <div th:if="!${isLiked}">
                             <form th:action="@{/likeProfile}" method="post">
                                 <input type="text" name="profileId" th:value="${profile.id}" hidden>
