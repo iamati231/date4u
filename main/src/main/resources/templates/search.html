@@ -68,14 +68,14 @@
                                 <input type="range" class="form-range" value="18" min="18" max="100" step="1"
                                        id="minAgeElement" data-th-field="*{minAge}"
                                        oninput="this.nextElementSibling.value = this.value">
-                                <output>18</output>
+                                <output th:text="${searchDTO.getMinAge()}">18</output>
                             </div>
                             <div class="col-5">
                                 <label for="maxAgeElement" class="form-label">bis</label>
                                 <input type="range" class="form-range" value="50" min="18" max="100" step="1"
                                        id="maxAgeElement" data-th-field="*{maxAge}"
                                        oninput="this.nextElementSibling.value = this.value">
-                                <output>50</output>
+                                <output th:text="${searchDTO.getMaxAge()}">50</output>
                             </div>
                         </div>
                     </div>
@@ -86,14 +86,14 @@
                                 <input type="range" class="form-range" value="0" min="0" max="40" step="1"
                                        id="minHornElement" data-th-field="*{minHorn}"
                                        oninput="this.nextElementSibling.value = this.value">
-                                <output>0</output>
+                                <output th:text="${searchDTO.getMinHorn()}">0</output>
                             </div>
                             <div class="col-5">
                                 <label for="maxHornElement" class="form-label">bis</label>
                                 <input type="range" class="form-range" value="20" min="0" max="40" step="1"
                                        id="maxHornElement" data-th-field="*{maxHorn}"
                                        oninput="this.nextElementSibling.value = this.value">
-                                <output>20</output>
+                                <output th:text="${searchDTO.getMaxHorn()}">20</output>
                             </div>
                         </div>
                     </div>
