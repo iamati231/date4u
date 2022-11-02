@@ -6,49 +6,49 @@ import org.openqa.selenium.support.FindBy;
 
 import java.time.Duration;
 
-public class LoginPage extends Base {
+public class LoginAndLogoutPage extends Base {
 
 	@FindBy( id = "email" )
-	private WebElement emailElement;
+	private WebElement emailInputElement;
 
 	@FindBy( id = "password" )
-	private WebElement passwordElement;
+	private WebElement passwordInputElement;
 
 	@FindBy( id = "login-button" )
-	private WebElement submitButtonElement;
+	private WebElement loginButtonElement;
 
-	@FindBy( xpath = "//body/div[1]/div[1]/nav[1]/div[1]/div[1]/a[3]" )
+	@FindBy( className = "fa-user" )
 	private WebElement checkLoggedInElement;
 
-	@FindBy( xpath = "//body/div[1]/div[1]/nav[1]/div[1]/div[2]/a[1]" )
-	private WebElement logoutButtonElement;
+	@FindBy( className = "fa-sign-out" )
+	private WebElement logoutLinkElement;
 
-	@FindBy( xpath = "//body/div[1]/div[1]/nav[1]/div[1]/div[2]/a[2]" )
+	@FindBy( className = "fa-user-plus" )
 	private WebElement checkLoggedOutElement;
 
-	public LoginPage( WebDriver driver ) {
+	public LoginAndLogoutPage( WebDriver driver ) {
 		super( driver );
 		visit( "http://localhost:8080/login" );
 	}
 
 	public void typeEmail( String username ) {
-		type( emailElement, Duration.ofSeconds( 2 ), username );
+		type( emailInputElement, Duration.ofSeconds( 2 ), username );
 	}
 
 	public void typePassword( String password ) {
-		type( passwordElement, Duration.ofSeconds( 2 ), password );
+		type( passwordInputElement, Duration.ofSeconds( 2 ), password );
 	}
 
 	public void clickLoginButton() {
-		click( submitButtonElement, Duration.ofSeconds( 2 ) );
+		click( loginButtonElement, Duration.ofSeconds( 2 ) );
 	}
 
 	public boolean isLoggedIn() {
 		return elementIsVisible( checkLoggedInElement, Duration.ofSeconds( 2 ) );
 	}
 
-	public void clickLogoutButton() {
-		click( logoutButtonElement, Duration.ofSeconds( 2 ) );
+	public void clickLogoutLink() {
+		click( logoutLinkElement, Duration.ofSeconds( 2 ) );
 	}
 
 	public boolean isLoggedOut() {

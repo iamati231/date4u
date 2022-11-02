@@ -1,6 +1,6 @@
 package com.tutego.date4u.testcases;
 
-import com.tutego.date4u.pages.LoginPage;
+import com.tutego.date4u.pages.LoginAndLogoutPage;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Value;
 import java.time.Duration;
 
 @TestInstance( TestInstance.Lifecycle.PER_CLASS )
-public class LoginTest {
+public class LoginAndLogoutTest {
 
-	Logger log = LoggerFactory.getLogger( LoginTest.class );
+	Logger log = LoggerFactory.getLogger( LoginAndLogoutTest.class );
 
 	@Value( "${date4u.email}" )
 	private String date4uEmail;
@@ -25,19 +25,19 @@ public class LoginTest {
 	@Autowired
 	private WebDriver driver;
 	@Autowired
-	private LoginPage loginPage;
+	private LoginAndLogoutPage loginAndLogoutPage;
 
 	@BeforeEach
 	public void setUp() {
 		driver = new ChromeDriver();
-		loginPage = new LoginPage( driver );
+		loginAndLogoutPage = new LoginAndLogoutPage( driver );
 
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait( Duration.ofSeconds( 5 ) );
 
-		loginPage.typeEmail( "test@test.de" );
-		loginPage.typePassword( "1234" );
-		loginPage.clickLoginButton();
+		loginAndLogoutPage.typeEmail( "test@test.de" );
+		loginAndLogoutPage.typePassword( "1234" );
+		loginAndLogoutPage.clickLoginButton();
 
 		log.info( "Test started" );
 	}
@@ -51,14 +51,14 @@ public class LoginTest {
 
 	@Test
 	public void testSuccessfulLogin() {
-		Assertions.assertTrue( loginPage.isLoggedIn() );
+		Assertions.assertTrue( loginAndLogoutPage.isLoggedIn() );
 	}
 
 	@Test
 	public void testSuccessfulLogout() {
-		loginPage.clickLogoutButton();
+		loginAndLogoutPage.clickLogoutLink();
 
-		Assertions.assertTrue( loginPage.isLoggedOut() );
+		Assertions.assertTrue( loginAndLogoutPage.isLoggedOut() );
 	}
 
 }
