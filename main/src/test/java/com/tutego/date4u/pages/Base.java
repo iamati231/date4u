@@ -45,7 +45,6 @@ public class Base {
 	public void type( WebElement element, Duration duration, String inputText ) {
 		try {
 			new WebDriverWait( driver, duration ).until( ExpectedConditions.elementToBeClickable( element ) );
-			element.clear();
 			element.sendKeys( inputText );
 		} catch( WebDriverException webDriverException ) {
 			log.info( String.valueOf( webDriverException ) );
