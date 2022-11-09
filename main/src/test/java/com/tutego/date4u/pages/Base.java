@@ -52,7 +52,7 @@ public class Base {
 		}
 	}
 
-	public void waitForElementToBeVisible( WebElement element, Duration duration ) {
+	private void waitForElementToBeVisible( WebElement element, Duration duration ) {
 		try {
 			new WebDriverWait( driver, duration ).until( ExpectedConditions.visibilityOf( element ) );
 		} catch( WebDriverException webDriverException ) {
